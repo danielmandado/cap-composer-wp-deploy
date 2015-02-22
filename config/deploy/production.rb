@@ -4,7 +4,7 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{deployer@123.456.789.012}
+role :app, %w{deployer@178.62.24.21}
 
 
 # Extended Server Syntax
@@ -13,9 +13,9 @@ role :app, %w{deployer@123.456.789.012}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '123.456.789.012', user: 'deployer', roles: %w{web app}
+server '178.62.24.21', user: 'deployer', roles: %w{web app}
 
-set :deploy_to, '/sites/www.yourdomain.com/production'
+set :deploy_to, '/sites/www.workraw.com/production'
 
 set :ssh_options, {
     forward_agent: true,
@@ -35,7 +35,7 @@ namespace :deploy do
 
 		on roles :app do
 
-			execute "cd /sites/www.yourdomain.com/production/ && touch isrollback.txt"
+			execute "cd /sites/www.workraw.com/production/ && touch isrollback.txt"
 
 		end
 
@@ -49,7 +49,7 @@ namespace :deploy do
 
 		on roles :app do
 
-			execute "cd /sites/www.yourdomain.com/production/ && rm isrollback.txt"
+			execute "cd /sites/www.workraw.com/production/ && rm isrollback.txt"
 
 		end
 
@@ -68,15 +68,15 @@ namespace :deploy do
 
 			on roles :app do
 
-				if test "[ -f /sites/www.yourdomain.com/production/isrollback.txt ]"
+				if test "[ -f /sites/www.workraw.com/production/isrollback.txt ]"
 
 					execute "echo 'ROLLBACK: Skip Composer'"
 
 				else
 
-					thisnewreleasedir = capture('ls -t /sites/www.yourdomain.com/production/releases | head -1')
+					thisnewreleasedir = capture('ls -t /sites/www.workraw.com/production/releases | head -1')
 
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && composer install"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && composer install"
 
 				end
 
@@ -89,22 +89,22 @@ namespace :deploy do
 
 			on roles :app do
 
-				if test "[ -f /sites/www.yourdomain.com/production/isrollback.txt ]"
+				if test "[ -f /sites/www.workraw.com/production/isrollback.txt ]"
 
 					execute "echo 'ROLLBACK: Skip Creating WP Symlinks'"
 
 				else
 
-					thisnewreleasedir = capture('ls -t /sites/www.yourdomain.com/production/releases | head -1')
+					thisnewreleasedir = capture('ls -t /sites/www.workraw.com/production/releases | head -1')
 
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content && mkdir -p mu-plugins"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && ln -s /sites/www.yourdomain.com/production/shared/index.php index.php"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && ln -s /sites/www.yourdomain.com/production/shared/wp-config.php wp-config.php"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content && ln -s /sites/www.yourdomain.com/production/shared/uploads uploads"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content/plugins/memcached && rm object-cache.php"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content/plugins/memcached && ln -s /sites/www.yourdomain.com/production/shared/object-cache.php object-cache.php"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content/mu-plugins && ln -s /sites/www.yourdomain.com/production/shared/subdir-loader.php subdir-loader.php"
-					execute "cd /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir} && cd content/ && ln -s /sites/www.yourdomain.com/production/releases/#{thisnewreleasedir}/wp/wp-content/themes themes"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content && mkdir -p mu-plugins"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && ln -s /sites/www.workraw.com/production/shared/index.php index.php"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && ln -s /sites/www.workraw.com/production/shared/wp-config.php wp-config.php"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content && ln -s /sites/www.workraw.com/production/shared/uploads uploads"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content/plugins/memcached && rm object-cache.php"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content/plugins/memcached && ln -s /sites/www.workraw.com/production/shared/object-cache.php object-cache.php"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content/mu-plugins && ln -s /sites/www.workraw.com/production/shared/subdir-loader.php subdir-loader.php"
+					execute "cd /sites/www.workraw.com/production/releases/#{thisnewreleasedir} && cd content/ && ln -s /sites/www.workraw.com/production/releases/#{thisnewreleasedir}/wp/wp-content/themes themes"
 
 				end
 
